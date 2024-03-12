@@ -1,6 +1,7 @@
 package org.example;
 
 import java.util.*;
+import java.text.SimpleDateFormat;
 
 public class Main {
     public static void main(String[] args) {
@@ -28,6 +29,9 @@ public class Main {
                 b1.content = content;
                 b1.id = idNum;
                 boardList.add(b1);
+                Date today = new Date();
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                b1.today = dateFormat.format(today);
                 System.out.println("게시물이 등록되었습니다.");
             }else if(cmd.equals("list")){
                 System.out.println("==================");
@@ -81,6 +85,7 @@ public class Main {
                         System.out.printf("번호 : %s\n", board.id);
                         System.out.printf("제목 : %s\n", board.title);
                         System.out.printf("내용 : %s\n", board.content);
+                        System.out.printf("등록날짜 : %s\n", board.today);
                         System.out.println("==================");
                         flag = true;
                         break;
@@ -103,4 +108,5 @@ class Board {
     int id;
     String title;
     String content;
+    String today;
 }
