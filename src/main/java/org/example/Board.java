@@ -3,12 +3,15 @@ package org.example;
 import java.util.ArrayList;
 
 public class Board {
-    Board(int id, String title, String content, String today){
+    Board(int id, String title, String content, String today, String madeUser){
         this.id = id;
         this.title = title;
         this.content = content;
         this.today = today;
         this.count = 1;
+        this.madeUser = madeUser;
+        this.comment = new ArrayList<>();
+        this.recommend = new ArrayList<>();
     }
     // getter, setter 사용하기
     // private 접근제한자
@@ -67,5 +70,24 @@ public class Board {
     private String title;
     private String content;
     private String today;
+    private String madeUser;
     private ArrayList<Comment> comment;
+
+    private ArrayList<User> recommend;
+
+    public String getMadeUser() {
+        return madeUser;
+    }
+
+    public void setMadeUser(String madeUser) {
+        this.madeUser = madeUser;
+    }
+
+    public ArrayList<User> getRecommend() {
+        return recommend;
+    }
+
+    public void setRecommend(ArrayList<User> recommend) {
+        this.recommend = recommend;
+    }
 }
