@@ -9,7 +9,9 @@ public class BoardApp {
 //        System.out.print("명령어 : ");
 //        String cmd = sc.nextLine();
         ArrayList<Board> boardList = new ArrayList<>();
+        ArrayList<User> userList = new ArrayList<>();
         int idNum = 1;
+        int userIdNum = 1;
         Date todayTest = new Date();
         SimpleDateFormat dateFormatTest = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
@@ -164,8 +166,19 @@ public class BoardApp {
                     System.out.println("==================");
                 }
 
-            }
+            }else if(cmd.equals("signup")){
+                System.out.println("==== 회원 가입을 진행합니다 ====");
+                System.out.print("아이디를 입력해주세요 : ");
+                int id = Integer.parseInt(sc.nextLine());
+                System.out.print("비밀번호를 입력해주세요 : ");
+                String password = sc.nextLine();
+                System.out.print("닉네임을 입력해주세요 : ");
+                String nickname = sc.nextLine();
+                User user = new User(userIdNum++,id,password,nickname);
+                userList.add(user);
+                System.out.println("==== 회원가입이 완료되었습니다. ====");
 
+            }
         }
 
         // 1. 반복문 제어하는 방법 : 반복 횟수 세서 특정 횟수 지나면 탈출
@@ -201,4 +214,17 @@ class Comment {
     String content;
     String today;
     int boardId;
+}
+
+class User{
+    User(int userId, int id, String password, String nickname){
+       this.userId = userId;
+       this.id = id;
+       this.password = password;
+       this.nickname = nickname;
+    }
+    int userId;
+    int id;
+    String password;
+    String nickname;
 }
