@@ -91,6 +91,10 @@ public class Board implements Comparable<Board>{
         this.recommend = recommend;
     }
 
+    public void increaseCount(){
+        this.count++;
+    }
+
     @Override
     public int compareTo(Board b){
         return this.getId() - b.getId();
