@@ -13,7 +13,7 @@ public class BoardApp {
 //        String cmd = sc.nextLine();
         int idNum = 1;
         int userIdNum = 1;
-        int countNum = 1;
+        int countNum = 0;
         Date todayTest = new Date();
         SimpleDateFormat dateFormatTest = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
@@ -110,41 +110,12 @@ public class BoardApp {
                     boardList.add(b1);
                     System.out.println("게시물이 등록되었습니다.");
                 } else if (cmd.equals("list")) {
-                    System.out.println("==================");
-                    int n = 0;
-                    int pageNum = 3;
-                    int dan = 3;
-                    int leng = boardList.size();
-
-                    while (true) {
-                        for (int j = n; j < (Math.min(dan, leng)); j++) {
-                            Board board = boardList.get(j);
-                            System.out.printf("번호 : %s\n", board.getId());
-                            System.out.printf("제목 : %s\n", board.getTitle());
-                            System.out.println("==================");
-                        }
-                        System.out.print("페이지 이동 번호를 눌러주세요(1. 다음 페이지, 2. 이전페이지  3. 돌아가기) : ");
-                        int choice = Integer.parseInt(sc.nextLine());
-                        if (choice == 1) {
-                            n += pageNum;
-                            dan += pageNum;
-                            if (dan + pageNum >= leng) {
-                                System.out.println("다음페이지가 존재하지 않습니다.");
-                                dan = leng - pageNum;
-                                n = leng;
-                            }
-                        } else if (choice == 2) {
-                            n -= 3;
-                            dan -= 3;
-                            if (n < 0) {
-                                System.out.println("이전페이지가 존재하지 않습니다.");
-                                n = 0;
-                                dan = 3;
-                            }
-                        } else if (choice == 3) {
-                            System.out.println("되돌아갑니다.");
-                            break;
-                        }
+                    Collections.sort(boardList);
+                    System.out.println("================");
+                    for (Board board : boardList) {
+                        System.out.printf("번호 : %s\n", board.getId());
+                        System.out.printf("제목 : %s\n", board.getTitle());
+                        System.out.println("==================");
                     }
 
                 } else if (cmd.equals("update")) {
@@ -188,9 +159,10 @@ public class BoardApp {
                             System.out.printf("제목 : %s\n", board.getTitle());
                             System.out.printf("내용 : %s\n", board.getContent());
                             System.out.printf("등록날짜 : %s\n", board.getToday());
-                            board.setCount(countNum++);
+                            int currentCount = board.getCount();
+                            board.setCount(++currentCount);
                             System.out.printf("조회수 : %d\n", board.getCount());
-                            System.out.printf("추천수 : %d\n", board.getRecommend().size());
+                            System.out.printf("좋아요수 : %d\n", board.getRecommend().size());
                             System.out.println("==================");
                             if (!(board.getComment().isEmpty())) {
                                 System.out.println("======= 댓글 =======");
@@ -246,7 +218,7 @@ public class BoardApp {
                                     }
                                 } else if (choice == 3) {
                                     if (!board.getMadeUser().equals(loginUser.getId())) {
-                                        System.out.println("작성자만 수정할 수 있습니다.");
+                                        System.out.println("자신의 게시물만 수정/삭제 할 수 있습니다.");
                                         continue;
                                     }
                                     System.out.print("게시물 제목을 입력해주세요 : ");
@@ -259,7 +231,7 @@ public class BoardApp {
                                     continue;
                                 } else if (choice == 4) {
                                     if (!board.getMadeUser().equals(loginUser.getId())) {
-                                        System.out.println("작성자만 삭제할 수 있습니다.");
+                                        System.out.println("자신의 게시물만 수정/삭제 할 수 있습니다.");
                                         continue;
                                     }
                                     boardList.remove(board);
@@ -299,7 +271,105 @@ public class BoardApp {
                         System.out.println("==================");
                     }
 
+                } else if (cmd.equals("sort")) {
+                    Collections.sort(boardList);
+                    System.out.print("정렬 대상을 선택해주세요. (1. 번호,  2. 조회수) : ");
+                    int sortTarget = Integer.parseInt(sc.nextLine());
+                    System.out.print("정렬 방법을 선택해주세요. (1. 오름차순,  2. 내림차순) : ");
+                    int sortOrder = Integer.parseInt(sc.nextLine());
+                    if (sortTarget == 1) {
+                        Collections.sort(boardList, new Comparator<Board>() {
+                            @Override
+                            public int compare(Board b1, Board b2) {
+                                if (sortOrder == 1) {
+                                    return b1.getId() - b2.getId();
+                                } else if (sortOrder == 2) {
+                                    return b2.getId() - b1.getId();
+                                }
+                                return 0;
+                            }
+                        });
+                        for (Board board : boardList) {
+                            System.out.printf("번호 : %d\n", board.getId());
+                            System.out.printf("제목 : %s\n", board.getTitle());
+                            System.out.printf("작성자 : %s\n", board.getMadeUser());
+                            System.out.printf("조회수 : %d\n", board.getCount());
+                            System.out.printf("좋아요 : %d\n", board.getRecommend().size());
+                            System.out.println("================");
+                        }
+                    } else if (sortTarget == 2) {
+                        Collections.sort(boardList, new Comparator<Board>() {
+                            @Override
+                            public int compare(Board b1, Board b2) {
+                                if (sortOrder == 1) {
+                                    return b1.getCount() - b2.getCount();
+                                } else if (sortOrder == 2) {
+                                    return b2.getCount() - b1.getCount();
+                                }
+                                return 0;
+                            }
+                        });
+                        for (Board board : boardList) {
+                            System.out.printf("번호 : %d\n", board.getId());
+                            System.out.printf("제목 : %s\n", board.getTitle());
+                            System.out.printf("작성자 : %s\n", board.getMadeUser());
+                            System.out.printf("조회수 : %d\n", board.getCount());
+                            System.out.printf("좋아요 : %d\n", board.getRecommend().size());
+                            System.out.println("================");
+                        }
+                    }
+
+                } else if (cmd.equals("page")) {
+                    Collections.sort(boardList);
+                    int currentPage = 1;
+                    int pageNum = 3;
+                    int pageLeng = (int) Math.ceil((double) boardList.size() / pageNum);
+                    while (true) {
+                        if (currentPage < 1) {
+                            currentPage = 1;
+                            System.out.println("이전 페이지는 없습니다.");
+                        } else if (currentPage > pageLeng) {
+                            currentPage = pageLeng;
+                            System.out.println("다음 페이지는 없습니다.");
+                        } else {
+                            for (int i = (currentPage - 1) * 3; i < (Math.min(currentPage * 3, boardList.size())); i++) {
+                                System.out.printf("번호 : %d\n", boardList.get(i).getId());
+                                System.out.printf("제목 : %s\n", boardList.get(i).getTitle());
+                                System.out.printf("작성자 : %s\n", boardList.get(i).getMadeUser());
+                                System.out.printf("조회수 : %d\n", boardList.get(i).getCount());
+                                System.out.printf("좋아요 : %d\n", boardList.get(i).getRecommend().size());
+                                System.out.println("================");
+                            }
+                            for (int i = 1; i <= pageLeng; i++) {
+                                if (i == currentPage) {
+                                    System.out.printf("[%d]", i);
+                                } else {
+                                    System.out.printf(" %d ", i);
+                                }
+                            }
+                        }
+                        System.out.print("페이징 명령어를 입력해주세요 ((1. 이전, 2. 다음, 3. 선택, 4. 뒤로가기): ");
+                        int choice = Integer.parseInt(sc.nextLine());
+                        if (choice == 1) {
+                            currentPage--;
+                        } else if (choice == 2) {
+                            currentPage++;
+                        } else if (choice == 3) {
+                            while (true) {
+                                System.out.print("이동하실 페이지 번호를 입력해주세요 : ");
+                                int choicePage = Integer.parseInt(sc.nextLine());
+                                if (choicePage < 1 || choicePage > pageLeng) {
+                                    System.out.println("페이지 번호가 없습니다.");
+                                }
+                                currentPage = choicePage;
+                                break;
+                            }
+                        } else if (choice == 4) {
+                            break;
+                        }
+                    }
                 }
+
             }
         }
 

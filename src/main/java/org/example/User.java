@@ -11,6 +11,11 @@ public class User {
 
     }
 
+    private int userId;
+    private String id;
+    private String password;
+    private String nickname;
+
     public int getUserId() {
         return userId;
     }
@@ -42,9 +47,4 @@ public class User {
     public void setNickname(String nickname) {
         this.nickname = nickname;
     }
-
-    private int userId;
-    private String id;
-    private String password;
-    private String nickname;
 }

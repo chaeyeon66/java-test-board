@@ -7,6 +7,10 @@ public class Comment {
         this.today = today;
         this.boardId = boardId;
     }
+    private int id;
+    private String content;
+    private String today;
+    private int boardId;
 
     public int getId() {
         return id;
@@ -39,9 +43,4 @@ public class Comment {
     public void setBoardId(int boardId) {
         this.boardId = boardId;
     }
-
-    private int id;
-    private String content;
-    private String today;
-    private int boardId;
 }
