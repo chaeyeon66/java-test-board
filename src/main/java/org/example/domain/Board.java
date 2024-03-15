@@ -1,13 +1,19 @@
-package org.example;
+package org.example.domain;
+
+import org.example.base.CommonUtil;
 
 import java.util.ArrayList;
+import java.io.Serializable;
 
-public class Board implements Comparable<Board>{
-    Board(int id, String title, String content, String today, String madeUser){
+public class Board implements Comparable<Board> , Serializable{
+    Board(int id, String title, String content, String madeUser){
+
+        CommonUtil commonUtil = new CommonUtil();
+
         this.id = id;
         this.title = title;
         this.content = content;
-        this.today = today;
+        this.today = commonUtil.calculateToday();
         this.count = 0;
         this.madeUser = madeUser;
         this.comment = new ArrayList<>();

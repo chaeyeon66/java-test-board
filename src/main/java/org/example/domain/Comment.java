@@ -1,10 +1,17 @@
-package org.example;
+package org.example.domain;
 
-public class Comment {
-    Comment(int id, String content, String today, int boardId){
+import org.example.base.CommonUtil;
+
+import java.io.Serializable;
+
+public class Comment implements Serializable {
+    Comment(int id, String content, int boardId){
+
+        CommonUtil commonUtil = new CommonUtil();
+
         this.id = id;
         this.content = content;
-        this.today = today;
+        this.today = commonUtil.calculateToday();
         this.boardId = boardId;
     }
     private int id;

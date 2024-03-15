@@ -1,6 +1,8 @@
-package org.example;
+package org.example.domain;
 
-public class User {
+import java.io.Serializable;
+
+public class User implements Serializable {
     User(int userId, String id, String password, String nickname){
         this.userId = userId;
         this.id = id;
