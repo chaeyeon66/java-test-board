@@ -49,7 +49,7 @@ public class BoardController {
                 currentPage = pageLeng;
                 System.out.println("다음 페이지는 없습니다.");
             } else {
-                for (int i = (currentPage - 1) * 3; i < (Math.min(currentPage * 3, boardList.size())); i++) {
+                for (int i =(currentPage - 1) * 3; i < (Math.min(currentPage * 3, boardList.size())); i++) {
                     boardView.printList(boardList.get(i));
                 }
                 System.out.println("================");

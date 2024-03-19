@@ -15,11 +15,10 @@ public class BoardApp {
         while (true) {
             if (loginUser != null) {
                 boardController.loginCmd(loginUser);
-                cmd = sc.nextLine();
             } else {
                 boardController.notLoginCmd();
-                cmd = sc.nextLine();
             }
+            cmd = sc.nextLine();
 
             if (cmd.equals("exit")) {
                 System.out.println("프로그램을 종료합니다.");
@@ -30,8 +29,7 @@ public class BoardApp {
                 boardController.signup();
                 continue;
             } else if (cmd.equals("login")) {
-                User user = boardController.login();
-                loginUser = user;
+                loginUser = boardController.login();
                 continue;
             }
 
